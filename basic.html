@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <title>Document</title>
+</head>
+
+<body>
+
+    <input id="text_ip" type="text"> </input>
+    <p>This is a first line <br>
+        This is a second line <br>
+        This is a third line <br>
+    </p>
+    <p>2 This is a first line <br>
+        2 This is a second line <br>
+        2 This is a third line <br>
+    </p>
+    <ul id="ul_id">
+
+    </ul>
+
+
+    <canvas id="myCanvas" width=200px height=100px style="border:20px solid #034997;"></canvas>
+
+    <script>
+        // alert("Hi There");
+        // document.write("This is a doc write");
+        // console.log("log message");
+        // console.error("log error");
+        // console.warn("log warning");
+        document.getElementById("text_ip").value = "new value";
+        document.getElementById("ul_id").innerHTML = "<li> one </li> <li> two </li>"
+        document.getElementsByTagName("P")[1].innerHTML = "Updated paragraph"
+
+
+
+        const canvas = document.getElementById('myCanvas');
+        const context = canvas.getContext('2d');
+        // console.log(context)
+        // context.beginPath();
+        // context.moveTo(10, 100);
+        // context.lineTo(50, 25);
+        // context.stroke();
+        let x = 50;
+        let y = 50;
+        let xChange = 1;
+        let yChange = 1;
+        function drawCircle(xloc, yloc, size, color) {
+            context.clearRect(0, 0, canvas.width, canvas.height)
+            context.beginPath();
+            context.arc(xloc, yloc, size, 0, 2 * Math.PI);
+            context.fillStyle = color;
+            context.fill();
+            context.stroke();
+        }
+
+
+        // drawCircle(100, 100, 40, "yellow");
+        setInterval(function () {
+            drawCircle(x, y, 40, "yellow");
+            if (x >= canvas.width - 40 || x <= 0 + 40) {
+                xChange *= -1;
+            }
+            if (y >= canvas.height - 40 || y <= 0 + 40) {
+                yChange *= -1;
+            }
+            console.log(xChange, yChange, x, y)
+            // console.log(yChange)
+            x = x + xChange;
+            y = y + yChange;
+        }, 1000)
+        // drawCircle(100, 30, 30, "green");
+        // drawCircle(170, 100, 30, "blue");
+        // drawCircle(30, 100, 30, "red");
+        // drawCircle(100, 170, 30, "purple");
+    </script>
+
+</body>
+
+</html>
