@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+    <!-- created canvas -->
+    <br>
+    <div class="container">
+        <canvas id="myCanvas" width=1000px height=700px style="border:20px solid #034997;"></canvas>
+    </div>
+    <script>
+        // Created canvas object
+        const canvas = document.getElementById('myCanvas');
+        const context = canvas.getContext('2d');
+        // Created array for multiple balls
+        let blobs = new Array();
+        // Created array for colors
+        const color = new Array("red", "blue", "green", "yellow", "orange", "purple", "pink", "black", "brown")
+
+
+        // Created Class to draw and move the balls
+        class BouncingBall {
+            // Constructor created
+            constructor(color, size) {
+                this.color = color;
+                this.size = size;
+                // To start at random point. Math.random returns any value between 0-1
+                this.x = Math.floor(Math.random() * canvas.width);
+                if (this.x < 1) {
+                    this.x += size + 10
+                } else if (this.x >= canvas.width) {
+                    this.x -= size + 10
+                }
+                this.y = Math.floor(Math.random() * canvas.height) + size;
+                if (this.y < 1) {
+                    this.y += size + 10
+                } else if (this.y >= canvas.height) {
+                    this.y -= size + 10
+                }
+                // To start at random point after bounce.
+                this.xChange = Math.random();
+                this.yChange = Math.random();
+            }
+
+            // To draw a circle
+            draw() {
+                context.beginPath();
+                context.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
+                context.fillStyle = this.color;
+                context.fill();
+                context.stroke();
+            }
+
+            // To move the ball
+            move() {
+                // If the ball touches the border reverse the xChange and yChange
+                if (this.x >= canvas.width - this.size || this.x <= 0 + this.size) {
+                    this.xChange *= -1;
+                }
+                if (this.y >= canvas.height - this.size || this.y <= 0 + this.size) {
+                    this.yChange *= -1;
+                }
+
+                // Shifting the center of the ball 
+                this.x = this.x + this.xChange;
+                this.y += this.yChange;
+            }
+        }
+
+        // To create multicolor-multiple balls
+        let numberOfBalls = 200
+        for (let i = 0; i <= numberOfBalls; i++) {
+            blobs.push(new BouncingBall(randomColor(color), Math.random() * 40))
+        }
+
+
+        function randomColor(arr) {
+            return arr[Math.floor(Math.random() * arr.length)]
+        }
+
+
+        function canvasDraw() {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            blobs.forEach(function (obj) {
+                obj.draw();
+                obj.move();
+            })
+        };
+
+
+        setInterval(canvasDraw, 5);
+    </script>
+
+</body>
+
+</html>
